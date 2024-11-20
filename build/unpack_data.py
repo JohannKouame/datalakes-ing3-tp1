@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 
-
 def unpack_data(input_dir, output_file):
     """
     Exercice : Fonction pour décompresser et combiner plusieurs fichiers CSV à partir d'un répertoire en un seul fichier CSV.
@@ -29,14 +28,19 @@ def unpack_data(input_dir, output_file):
     - Combinez les DataFrames avec `pd.concat`.
     - Sauvegardez le résultat avec `to_csv`.
     """
-
-    pass
+    dataframes = []
+    for filename in os.listdir(input_dir):
+        with filename.endswith('.csv') as f:
+            dataframe = pd.read_csv(filename)
+            dataframes.append(dataframe)
+        conbined_dataframe = pd.concat(dataframes, ignore_index=True)
+    conbined_dataframe = conbined_dataframe.to_csv("conbined_dataframe")
+    return conbined_dataframe
 
 
 
 if __name__ == "__main__":
     import argparse
-
     parser = argparse.ArgumentParser(description="Unpack and combine protein data")
     parser.add_argument("--input_dir", type=str, required=True, help="Path to input directory")
     parser.add_argument("--output_file", type=str, required=True, help="Path to output combined CSV file")
